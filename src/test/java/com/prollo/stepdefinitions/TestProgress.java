@@ -858,7 +858,7 @@ public class TestProgress {
             Assert.assertEquals(progressPage.getJobSupplyLaba(), jobSupplyLaba);
             System.out.println(jobSupplyLaba);
             extentTest.log(LogStatus.PASS,"Successful validation of job supply form input");
-            System.out.println("test");
+
         }
     }
 
