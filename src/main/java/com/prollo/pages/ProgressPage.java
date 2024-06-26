@@ -252,6 +252,38 @@ public class ProgressPage {
     @FindBy(xpath = "//*[contains(text(), 'Minimal Harga per QTY adalah 1')]")
     WebElement pricePerQtyUnder1;
 
+    //Facility Management
+    @FindBy(xpath = "//span[normalize-space()='Facility Management']")
+    WebElement facilityManagement;
+    @FindBy(xpath = "//div[normalize-space()='Facility Management']")
+    WebElement labelFacilityManagement;
+    @FindBy(xpath = "//input[@id='facility_management.qty']")
+    WebElement fieldQtyFm;
+    @FindBy(xpath = "//input[@id='facility_management.price_per_qty']")
+    WebElement fieldPricePerQtyFm;
+    @FindBy(xpath = "//select[@id='facility_management.is_ppn']")
+    WebElement fieldFacilityManagementPpn;
+    @FindBy(xpath = "//input[@id='fm_total']")
+    WebElement fmTotal;
+    @FindBy(xpath = "//input[@id='fm_ppn']")
+    WebElement fmPpn;
+    @FindBy(xpath = "//input[@id='fm_grand_total']")
+    WebElement fmGrandTotal;
+    @FindBy(xpath = "//input[@id='fm_total_payment']")
+    WebElement fmTotalPayment;
+    @FindBy(xpath = "//input[@id='fm_loss']")
+    WebElement fmLoss;
+    @FindBy(xpath = "//*[contains(text(), 'Qty/Target harus diinput')]")
+    WebElement emptyFmQty;
+    @FindBy(xpath = "//*[contains(text(), 'Harga per QTY harus diinput')]")
+    WebElement emptyFmPricePerQty;
+    @FindBy(xpath = "//*[contains(text(), 'Pilih Salah satu sumber PPN')]")
+    WebElement emptyFmPpn;
+    @FindBy(xpath = "//*[contains(text(), 'Minimal Qty adalah 1')]")
+    WebElement fmQtyUnder1;
+    @FindBy(xpath = "//*[contains(text(), 'Minimal Harga per QTY adalah 1')]")
+    WebElement fmPricePerQtyUnder1;
+
 
     //endregion
 
@@ -811,7 +843,7 @@ public class ProgressPage {
         return this.labelLabourSupply.getText();
     }
 
-    public void clickJobSupply() {
+    public void selectJobSupply() {
         this.jobSupply.click();
     }
 
@@ -890,6 +922,87 @@ public class ProgressPage {
 
     public String getTxtemptyPpn() {
         return this.emptyFieldPpn.getText();
+    }
+
+    public void selectFacilityManagement() {
+        this.facilityManagement.click();
+    }
+
+    public String getLabelFormFm() {
+        return this.labelFacilityManagement.getText();
+    }
+
+    public void setFieldQtyFm(Integer qty) {
+        if (qty == -1) {
+            this.fieldQtyFm.clear();
+        } else {
+            this.fieldQtyFm.clear();
+            this.fieldQtyFm.sendKeys(String.valueOf(qty));
+        }
+    }
+
+    public void setFieldPricePerQtyFm(Integer pricePerQty) {
+        if (pricePerQty == -1) {
+            this.fieldPricePerQtyFm.clear();
+        } else {
+            this.fieldPricePerQtyFm.clear();
+            this.fieldPricePerQtyFm.sendKeys(String.valueOf(pricePerQty));
+        }
+    }
+
+    public void selectPpnFm(Integer index) {
+        Select dropdownPpnFm = new Select(fieldFacilityManagementPpn);
+        dropdownPpnFm.selectByIndex(index);
+    }
+
+    public int getFmTotal() {
+        String totalOriginal = this.fmTotal.getAttribute("value");
+        String totalReplace = totalOriginal.replaceAll("\\.", "");
+        return Integer.parseInt(totalReplace);
+    }
+
+    public int getFmPpn() {
+        String ppnOriginal = this.fmPpn.getAttribute("value");
+        String ppnReplace = ppnOriginal.replaceAll("\\.", "");
+        return Integer.parseInt(ppnReplace);
+    }
+
+    public int getFmGrandTotal() {
+        String grandTotalOriginal = this.fmGrandTotal.getAttribute("value");
+        String grandTotalReplace = grandTotalOriginal.replaceAll("\\.", "");
+        return Integer.parseInt(grandTotalReplace);
+    }
+
+    public int getFmTotalPayment() {
+        String totalPaymentOriginal = this.fmTotalPayment.getAttribute("value");
+        String totalPaymentReplace = totalPaymentOriginal.replaceAll("\\.", "");
+        return Integer.parseInt(totalPaymentReplace);
+    }
+
+    public int getFmLoss() {
+        String lossOriginal = this.fmLoss.getAttribute("value");
+        String lossReplace = lossOriginal.replaceAll("\\.", "");
+        return Integer.parseInt(lossReplace);
+    }
+
+    public String getTxtEmptyFmQty() {
+        return this.emptyFmQty.getText();
+    }
+
+    public String getTxtEmptyFmPricePerQty() {
+        return this.emptyFmPricePerQty.getText();
+    }
+
+    public String getTxtEmptyFmPpn() {
+        return this.emptyFmPpn.getText();
+    }
+
+    public String getTxtFmQtyUnder1() {
+        return this.fmQtyUnder1.getText();
+    }
+
+    public String getTxtFmPricePerQtyUnder1() {
+        return this.fmPricePerQtyUnder1.getText();
     }
 
 

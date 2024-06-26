@@ -121,6 +121,7 @@ Feature: Progress Page
 #      | Meeting Pertama | Jakarta Selatan | 1        | 1. Fitur Login bisa login menggunakan akun dikaone \n 2. Tambahkan fitur remember me | complete                     | Success Edit Meeting   |
 
 
+  #CLIENT ASSESSMENT
   Scenario: Drag initial meeting to client assessment
     When drag card to client assessment
     Then validation displays the client assessment form
@@ -136,6 +137,7 @@ Feature: Progress Page
       | 24              | Lokasi Kerja Harus Disii!      | Lokasi empty  |
       | 24              | Berhasil                       | Success       |
 
+#LABOUR SUPPLY
   Scenario: Ceklis form Labour Supply
     When ceklist jenis kerjasama labour supply
     Then validate the labour supply display form
@@ -158,6 +160,7 @@ Feature: Progress Page
       | 2        | 4000000   | 7             | 0         | 12  | empty sumber ppn |
       | 3        | 4500000   | 8             | 2         | 12  | success          |
 
+#JOB SUPPLY
   Scenario: Ceklis form Job Supply
     When ceklist jenis kerjasama job supply
     Then validate the job supply display form
@@ -178,6 +181,24 @@ Feature: Progress Page
       | 3         | 500000      | 0   | empty ppn             |
       | 2         | 500000      | 2   | does't use ppn        |
       | 2         | 500000      | 1   | success               |
+
+#FACILITY MANAGEMENT
+  Scenario: Ceklist form Facility Management
+    When checklist jenis kerjasama facility management
+    Then validate the facility management display form
+
+  Scenario Outline:
+    When input qty target facility management <qtyTarget>
+    And input harga per qty facility management <hargaPerQty>
+    And pilih ppn facility management <ppn>
+    And click button calculate facility management
+    Then validate input cooperation facility management "<status>"
+
+    Examples:
+      | qtyTarget | hargaPerQty | ppn | status  |
+      | 2         | 5000000     | 1   | success |
+
+
 
 
 #    Scenario: Signature

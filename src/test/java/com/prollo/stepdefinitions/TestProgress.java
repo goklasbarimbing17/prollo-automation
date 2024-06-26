@@ -19,7 +19,8 @@ public class TestProgress {
     public static ProgressPage progressPage = new ProgressPage();
     private String companyName, productNameShareCompro, brandNameInitialMeetings, companyNameInitialMeetings;
     private int nJumlahTK, nBiayaGaji, nManagementFee, nPpn, nQty, nHargaPerQty, nPpnJobSupply, resultBiayaGaji, resultManagementFee,
-            resultTotal, resultPPN, resultGrandTotal, jobSupplyTotalCost, jobSupplyPPN, jobSupplyGrandTotal, jobSupplyTotalBiaya, jobSupplyLaba;
+            resultTotal, resultPPN, resultGrandTotal, jobSupplyTotalCost, jobSupplyPPN, jobSupplyGrandTotal, jobSupplyTotalBiaya, jobSupplyLaba,
+            fmQty, fmPricePerQty, fmPpn, fmTotalResult, fmPpnResult, fmGrandTotal, fmTotalPayment, fmLoss;
     private Random rand = new Random();
 
     public TestProgress() {
@@ -776,7 +777,7 @@ public class TestProgress {
     @When("ceklist jenis kerjasama job supply")
     public void ceklist_jenis_kerjasama_job_supply() {
         Hooks.delay(0.5);
-        progressPage.clickJobSupply();
+        progressPage.selectJobSupply();
         extentTest.log(LogStatus.PASS, "ceklist jenis kerjasama job supply");
     }
 
@@ -826,42 +827,113 @@ public class TestProgress {
     public void validate_input_cooperation_job_supply(String status) {
         Hooks.delay(1);
         jobSupplyTotalBiaya = nQty * nHargaPerQty;
-        jobSupplyPPN = jobSupplyTotalBiaya * nPpnJobSupply / 100;
+        jobSupplyPPN = (jobSupplyTotalBiaya * nPpnJobSupply) / 100;
         jobSupplyGrandTotal = jobSupplyTotalBiaya + jobSupplyPPN;
         jobSupplyTotalCost = (70 * jobSupplyTotalBiaya) / 100;
         jobSupplyLaba = jobSupplyTotalBiaya - jobSupplyTotalCost;
 
         if (status.equals("empty qty target")) {
-            Assert.assertEquals(progressPage.getTxtEmptyQty(),"Qty/Target harus diinput");
-            extentTest.log(LogStatus.PASS,"Validate input cooperation job supply with Qty target empty");
+            Assert.assertEquals(progressPage.getTxtEmptyQty(), "Qty/Target harus diinput");
+            extentTest.log(LogStatus.PASS, "Validate input cooperation job supply with Qty target empty");
         } else if (status.equals("empty harga per qty")) {
-            Assert.assertEquals(progressPage.getTxtEmptyPricePerQty(),"Harga per QTY harus diinput");
-            extentTest.log(LogStatus.PASS,"Validate input cooperation job supply with Price per Qty empty");
+            Assert.assertEquals(progressPage.getTxtEmptyPricePerQty(), "Harga per QTY harus diinput");
+            extentTest.log(LogStatus.PASS, "Validate input cooperation job supply with Price per Qty empty");
         } else if (status.equals("qty target under 1")) {
-            Assert.assertEquals(progressPage.getTxtQtyUnder1(),"Minimal Qty adalah 1");
-            extentTest.log(LogStatus.PASS,"Validate input cooperation job supply with qty target under 1");
+            Assert.assertEquals(progressPage.getTxtQtyUnder1(), "Minimal Qty adalah 1");
+            extentTest.log(LogStatus.PASS, "Validate input cooperation job supply with qty target under 1");
         } else if (status.equals("harga per qty under 1")) {
-            Assert.assertEquals(progressPage.getTxtPricePerQtyUnder1(),"Minimal Harga per QTY adalah 1");
-            extentTest.log(LogStatus.PASS,"Validate input cooperation job supply with price per qty under 1");
+            Assert.assertEquals(progressPage.getTxtPricePerQtyUnder1(), "Minimal Harga per QTY adalah 1");
+            extentTest.log(LogStatus.PASS, "Validate input cooperation job supply with price per qty under 1");
         } else if (status.equals("empty ppn")) {
-            Assert.assertEquals(progressPage.getTxtemptyPpn(),"Pilih Salah satu sumber PPN");
-            extentTest.log(LogStatus.PASS,"Validate input cooperation job supply with ppn empty");
+            Assert.assertEquals(progressPage.getTxtemptyPpn(), "Pilih Salah satu sumber PPN");
+            extentTest.log(LogStatus.PASS, "Validate input cooperation job supply with ppn empty");
         } else if (status.equals("no ppn") || status.equals("success")) {
             Assert.assertEquals(progressPage.getJobSupplyTotalBiaya(), jobSupplyTotalBiaya);
-            System.out.println(jobSupplyTotalBiaya);
+//            System.out.println(jobSupplyTotalBiaya);
             Assert.assertEquals(progressPage.getJobSupplyPpn(), jobSupplyPPN);
-            System.out.println(jobSupplyPPN);
+//            System.out.println(jobSupplyPPN);
             Assert.assertEquals(progressPage.getJobSupplyGrandTotal(), jobSupplyGrandTotal);
-            System.out.println(jobSupplyGrandTotal);
+//            System.out.println(jobSupplyGrandTotal);
             Assert.assertEquals(progressPage.getJobSupplyTotalCost(), jobSupplyTotalCost);
-            System.out.println(jobSupplyTotalCost);
+//            System.out.println(jobSupplyTotalCost);
             Assert.assertEquals(progressPage.getJobSupplyLaba(), jobSupplyLaba);
-            System.out.println(jobSupplyLaba);
-            extentTest.log(LogStatus.PASS,"Successful validation of job supply form input");
-
+//            System.out.println(jobSupplyLaba);
+            extentTest.log(LogStatus.PASS, "Successful validation of job supply form input");
+            Hooks.delay(1);
+            progressPage.selectJobSupply();
         }
     }
 
+    //FACILITY MANAGEMENT
+    @When("checklist jenis kerjasama facility management")
+    public void checklist_jenis_kerjasama_facility_management() {
+        Hooks.delay(0.5);
+        progressPage.selectFacilityManagement();
+        extentTest.log(LogStatus.PASS, "Checklist jenis kerjasama facility management");
+    }
+
+    @Then("validate the facility management display form")
+    public void validate_the_facility_management_display_form() {
+        Hooks.delay(0.5);
+        Assert.assertEquals(progressPage.getLabelFormFm(), "Facility Management");
+        extentTest.log(LogStatus.PASS, "Validate the facility management display form");
+    }
+
+    @When("input qty target facility management {int}")
+    public void input_qty_target_facility_management(Integer qty) {
+        Hooks.delay(0.5);
+        fmQty = qty;
+        progressPage.setFieldQtyFm(qty);
+        extentTest.log(LogStatus.PASS, "Input qty target facility management");
+    }
+
+    @When("input harga per qty facility management {int}")
+    public void input_harga_per_qty_facility_management(Integer pricePerQty) {
+        Hooks.delay(0.5);
+        fmPricePerQty = pricePerQty;
+        progressPage.setFieldPricePerQtyFm(pricePerQty);
+        extentTest.log(LogStatus.PASS, "Input price per qty facility management");
+    }
+
+    @When("pilih ppn facility management {int}")
+    public void pilih_ppn_facility_management(Integer index) {
+        Hooks.delay(0.5);
+        if (index == 1) {
+            fmPpn = 11;
+        } else {
+            fmPpn = 0;
+        }
+        progressPage.selectPpnFm(index);
+        extentTest.log(LogStatus.PASS, "pilih ppn facility management");
+    }
+
+    @When("click button calculate facility management")
+    public void click_button_calculate_facility_management() {
+        Hooks.delay(0.5);
+        progressPage.clickBtnCalculate();
+        extentTest.log(LogStatus.PASS, "Click button calculate facility management");
+    }
+
+    @Then("validate input cooperation facility management {string}")
+    public void validate_input_cooperation_facility_management(String status) {
+        Hooks.delay(1);
+        //Calculate
+        fmTotalResult = fmQty * fmPricePerQty;
+        fmPpnResult = (fmTotalResult * fmPpn) / 100;
+        fmGrandTotal = fmTotalResult + fmPpnResult;
+        fmTotalPayment = (70 * fmTotalResult) / 100;
+        fmLoss = fmTotalResult - fmTotalPayment;
+
+        switch (status) {
+            case "success" -> {
+                Assert.assertEquals(progressPage.getFmTotal(), fmTotalResult);
+                Assert.assertEquals(progressPage.getFmPpn(), fmPpnResult);
+                Assert.assertEquals(progressPage.getFmGrandTotal(), fmGrandTotal);
+                Assert.assertEquals(progressPage.getFmTotalPayment(), fmTotalPayment);
+                Assert.assertEquals(progressPage.getFmLoss(), fmLoss);
+            }
+        }
+    }
 
     //endregion
 }
