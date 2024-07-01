@@ -187,19 +187,142 @@ Feature: Progress Page
     When checklist jenis kerjasama facility management
     Then validate the facility management display form
 
-  Scenario Outline:
+  Scenario Outline: Coorperation - Facility Management
     When input qty target facility management <qtyTarget>
     And input harga per qty facility management <hargaPerQty>
     And pilih ppn facility management <ppn>
     And click button calculate facility management
-    Then validate input cooperation facility management "<status>"
+    Then validate input cooperation facility management "<status>" <ppn>
 
     Examples:
-      | qtyTarget | hargaPerQty | ppn | status  |
-      | 2         | 5000000     | 1   | success |
+      | qtyTarget | hargaPerQty | ppn | status                |
+      | -1        | 500000      | 1   | empty qty target      |
+      | 2         | -1          | 1   | empty harga per qty   |
+      | 0         | 500000      | 1   | qty target under 1    |
+      | 3         | 0           | 1   | harga per qty under 1 |
+      | 3         | 500000      | 0   | empty ppn             |
+      | 2         | 500000      | 2   | does't use ppn        |
+      | 2         | 500000      | 1   | success               |
 
+#RECRUITMENT SERVICE
+  Scenario: Checklist form recruitment service
+    When checklist jenis kerjasama recruitment service
+    Then validate input coorperation recruitment service
 
+  Scenario Outline: Coorperation - Recruitment Service
+    When input jumlah tk recruitment service <jumlahTK>
+    And input biaya gaji tk recruitment service <biayaGaji>
+    And input management fee recruitment service <mFee>
+    And click button calculate recruitment service
+    Then validate input coorperation recruitment service "<status>"
+    Examples:
+      | jumlahTK | biayaGaji | mFee | status         |
+      | -1       | 3400000   | 8    | amount empty   |
+      | 3        | -1        | 8    | salary empty   |
+      | 0        | 5100000   | 8    | amount under 1 |
+      | 4        | 0         | 11   | salary under 1 |
+      | 3        | 3400000   | 12   | success        |
 
+#TRAINING
+  Scenario: Checklist form training
+    When checklist jenis kerjasama training
+    Then validate input coorperation training
+
+  Scenario Outline: Coorperation - Training
+    When input qty target training <qtyTarget>
+    And input harga per qty training <hargaPerQty>
+    And pilih ppn training <ppn>
+    And click button calculate training
+    Then validate input cooperation training "<status>" <ppn>
+
+    Examples:
+      | qtyTarget | hargaPerQty | ppn | status                |
+      | -1        | 500000      | 1   | empty qty target      |
+      | 2         | -1          | 1   | empty harga per qty   |
+      | 0         | 500000      | 1   | qty target under 1    |
+      | 3         | 0           | 1   | harga per qty under 1 |
+      | 3         | 500000      | 0   | empty ppn             |
+      | 2         | 500000      | 2   | does't use ppn        |
+      | 2         | 500000      | 1   | success               |
+
+  #FUNDS
+  Scenario: Cek value estimated fund
+    Then validation fund according to cooperative calculations
+
+  Scenario Outline: cek form funds
+    When input payment term <paymentTerm>
+    Then check fund turnover month "<status>"
+    Then check result fund turn over "<status>"
+
+    Examples:
+      | paymentTerm | status                 |
+      | 0           | payment term min value |
+      | 5           | payment term max value |
+      | 1           | payment term 1 value   |
+      | 2           | payment term 2 value   |
+      | 3           | payment term 3 value   |
+
+#  CLIENT DATA ASSESSMENT
+  Scenario Outline: Client Data - General
+    When input established year "<year>"
+    And input total employees "<totalEmployee>"
+    And select office type <officeType>
+    Then validate input form CA General "<status>"
+    Examples:
+      | year | totalEmployee | officeType | status                 |
+      |      | 223           | 2          | established year empty |
+      | 2012 |               | 2          | total employee empty   |
+      | 2014 | 223           | 0          | office type empty      |
+      | 2014 | 223           | 2          | success                |
+
+  Scenario Outline: Client Data - Rating Perusahaan
+    When select company rating <companyRating>
+    Then validate input form CA company rating "<status>"
+    Examples:
+      | companyRating | status               |
+      | 0             | company rating empty |
+      | 2             | positive             |
+
+  Scenario Outline: Client Data - Finansial
+    When select finansial <finansial>
+    Then validate input form CA finansial "<status>"
+    Examples:
+      | finansial | status          |
+      | 0         | finansial empty |
+      | 1         | positive        |
+
+  Scenario Outline: Client Data - Legalitas
+    When select ojk <ojk>
+    And select aftech <aftech>
+    And select afpi <afpi>
+    Then validate input form ca legalitas "<status>"
+    Examples:
+      | ojk | aftech | afpi | status       |
+      | 0   | 1      | 1    | ojk empty    |
+      | 1   | 0      | 1    | aftech empty |
+      | 1   | 1      | 0    | afpi empty   |
+      | 1   | 1      | 2    | positive     |
+
+  Scenario Outline: Client Data - Informasi lainnya
+    When select company owner <companyOwner>
+    And input owner name "<status>"
+    And input direktur utama
+    And input direksi1
+    And input direksi2
+    And input direksi3
+    And select company info <companyInfo>
+    And input additional info
+    Then validasi input form ca informasi lainnya "<status>"
+    Examples:
+      | companyOwner | companyInfo | status              |
+      | 0            | 1           | company owner empty |
+      | 2            | 1           | owner name empty    |
+      | 1            | 0           | company info empty  |
+      | 1            | 1           | success             |
+
+  Scenario: Submit data CA
+  When click button submit
+  Then validasi submit form client assessment
 
 #    Scenario: Signature
 #      When open web employee

@@ -283,6 +283,153 @@ public class ProgressPage {
     WebElement fmQtyUnder1;
     @FindBy(xpath = "//*[contains(text(), 'Minimal Harga per QTY adalah 1')]")
     WebElement fmPricePerQtyUnder1;
+    @FindBy(xpath = "//body[1]/div[6]/div[4]/div[1]/section[1]/div[1]/div[1]/div[1]/div[1]/form[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[2]/div[1]/label[4]/input[1]")
+    public WebElement cbFm;
+
+
+    //Recruitment Service
+    @FindBy(xpath = "//span[normalize-space()='Recruitment Services']")
+    WebElement recruitmentService;
+    @FindBy(xpath = "//div[normalize-space()='Recruitment Services']")
+    WebElement labelRecruitmentService;
+    @FindBy(xpath = "//input[@id='recruitment_service.amount']")
+    WebElement rsAmount;
+    @FindBy(xpath = "//input[@id='recruitment_service.salary']")
+    WebElement rsSalary;
+    @FindBy(xpath = "//input[@id='recruitment_service.fee']")
+    WebElement rsMfee;
+    @FindBy(xpath = "//input[@id='rs_total_slaray']")
+    WebElement rsTotalSalary;
+    @FindBy(xpath = "//input[@id='rs_total_salary_per_year']")
+    WebElement rsSalaryPerYear;
+    @FindBy(xpath = "//input[@id='rs_total_fee']")
+    WebElement rsTotalFee;
+    @FindBy(xpath = "//input[@id='rs_total_worker']")
+    WebElement rsTotalWorker;
+    @FindBy(xpath = "//*[contains(text(), 'Jumlah TK harus diinput')]")
+    WebElement rsAmountEmpty;
+    @FindBy(xpath = "//*[contains(text(), 'Biaya Gaji/Tk harus diinput')]")
+    WebElement rsSalaryEmpty;
+    @FindBy(xpath = "//*[contains(text(), 'Minimal Jumlah Tk minimal adalah 1')]")
+    WebElement rsAmountUnder1;
+    @FindBy(xpath = "//*[contains(text(), 'Minimal Biaya Gaji/Tk minimal adalah Rp 1')]")
+    WebElement rsSalaryUnder1;
+
+    //Training
+    @FindBy(xpath = "//span[normalize-space()='Training']")
+    WebElement training;
+    @FindBy(xpath = "//div[normalize-space()='Training']")
+    WebElement labelTraining;
+    @FindBy(xpath = "//input[@id='training.qty']")
+    WebElement trainingQty;
+    @FindBy(xpath = "//input[@id='training.price_per_qty']")
+    WebElement trainingPricePerQty;
+    @FindBy(xpath = "//select[@id='training.is_ppn']")
+    WebElement trainingIsPpn;
+    @FindBy(xpath = "//input[@id='training_total']")
+    WebElement trainingTotal;
+    @FindBy(xpath = "//input[@id='training_ppn']")
+    WebElement trainingPpn;
+    @FindBy(xpath = "//input[@id='training_grand_total']")
+    WebElement trainingGrandTotal;
+    @FindBy(xpath = "//input[@id='training_total_cost']")
+    WebElement trainingTotalCost;
+    @FindBy(xpath = "//input[@id='training_loss']")
+    WebElement trainingLoss;
+    @FindBy(xpath = "//*[contains(text(), 'Qty/Target harus diinput')]")
+    WebElement trainingQtyEmpty;
+    @FindBy(xpath = "//*[contains(text(), 'Harga per QTY harus diinput')]")
+    WebElement trainingPricePerQtyEmpty;
+    @FindBy(xpath = "//*[contains(text(), 'Pilih Salah satu sumber PPN')]")
+    WebElement trainingIsPpnEmpty;
+    @FindBy(xpath = "//*[contains(text(), 'Minimal Qty adalah 1')]")
+    WebElement trainingMinQty;
+    @FindBy(xpath = "//*[contains(text(), 'Minimal Harga per QTY adalah Rp 1')]")
+    WebElement trainingMinPricePerQty;
+
+    //FUNDS
+    @FindBy(xpath = "//input[@id='estimated_fund']")
+    WebElement estimatedFund;
+    @FindBy(xpath = "//input[@id='payment_term']")
+    WebElement paymentTerm;
+    @FindBy(xpath = "//input[@id='fund_turnover_month']")
+    WebElement fundTurnoverMonth;
+    @FindBy(xpath = "//input[@id='fund_turnover']")
+    WebElement fundTurnover;
+    @FindBy(xpath = "//*[contains(text(), 'Termin Pembayaran minimal 1 Bulan')]")
+    WebElement paymentTermMinValue;
+    @FindBy(xpath = "//*[contains(text(), 'Termin Pembayaran tidak boleh lebih dari 3 Bulan')]")
+    WebElement paymentTermMaxValue;
+
+    //Client Data Assessment - General
+    @FindBy(xpath = "//input[@id='data_scoring.established_year']")
+    WebElement establishedYear;
+    @FindBy(xpath = "//input[@id='data_scoring.total_employees']")
+    WebElement totalEmployees;
+    @FindBy(xpath = "//select[@id='data_scoring.office_type']")
+    WebElement officeType;
+    @FindBy(xpath = "//*[contains(text(), 'Tahun Berdiri Harus Diisi!')]")
+    WebElement establishedYearEmpty;
+    @FindBy(xpath = "//*[contains(text(), 'Total Karyawan Harus Diisi!')]")
+    WebElement totalEmployeesEmpty;
+    @FindBy(xpath = "//*[contains(text(), 'Tipe Gedung Harus Dipilih!')]")
+    WebElement officeTypeEmpty;
+
+    //Client Data Assessment - Company Rating
+    @FindBy(xpath = "//select[@id='data_scoring.company_rating']")
+    public WebElement companyRating;
+    @FindBy(xpath = "//*[contains(text(), 'Rating  Harus Dipilih!')]")
+    WebElement companyRatingEmpty;
+
+    //Client Data Assessment - Finansial
+    @FindBy(xpath = "//select[@id='data_scoring.finance']")
+    public WebElement finansial;
+    @FindBy(xpath = "//*[contains(text(), 'Finansial Harus Dipilih!')]")
+    WebElement finansialEmpty;
+
+    //Client Data Assessment - Legalitas
+    @FindBy(xpath = "//select[@id='data_scoring.ojk']")
+    WebElement ojk;
+    @FindBy(xpath = "//select[@id='data_scoring.aftech']")
+    WebElement aftech;
+    @FindBy(xpath = "//select[@id='data_scoring.afpi']")
+    WebElement afpi;
+    @FindBy(xpath = "//*[contains(text(), 'OJK Harus Dipilih!')]")
+    WebElement ojkEmpty;
+    @FindBy(xpath = "//*[contains(text(), 'AFTECH Harus Dipilih!')]")
+    WebElement aftechEmpty;
+    @FindBy(xpath = "//*[contains(text(), 'AFPI Harus Dipilih!')]")
+    WebElement afpiEmpty;
+
+    //Client Data Assessment - Informasi Lainnya
+    @FindBy(xpath = "//select[@id='data_scoring.company_owner']")
+    public WebElement companyOwner;
+    @FindBy(xpath = "//input[@id='data_scoring.owner_name']")
+    public WebElement ownerName;
+    @FindBy(xpath = "//input[@id='data_scoring.director_1']")
+    WebElement directorUtama;
+    @FindBy(xpath = "//input[@id='data_scoring.director_2']")
+    WebElement direksi1;
+    @FindBy(xpath = "//input[@id='data_scoring.director_3']")
+    WebElement direksi2;
+    @FindBy(xpath = "//input[@id='data_scoring.director_4']")
+    WebElement direksi3;
+    @FindBy(xpath = "//select[@id='data_scoring.company_info']")
+    WebElement companyInfo;
+    @FindBy(xpath = "//textarea[@id='data_scoring.additional_info']")
+    WebElement additionalInfo;
+    @FindBy(xpath = "//*[contains(text(), ' Pemilik Perusahaan  Harus Disi!')]")
+    WebElement companyOwnerEmpty;
+    @FindBy(xpath = "//*[contains(text(), ' Nama Pemilik  Harus Disi!')]")
+    WebElement ownerNameEmpty;
+    @FindBy(xpath = "//*[contains(text(), ' Informasi Perusahaan  Harus Disi!')]")
+    WebElement companyInfoEmpty;
+
+    //Submit data Client Assessment
+    @FindBy(xpath = "//button[normalize-space()='Submit']")
+    WebElement btnSubmitCa;
+    @FindBy(xpath = "(//div[@id='toast-1-title'])[1]")
+    WebElement alertSuccessCA;
 
 
     //endregion
@@ -1003,6 +1150,331 @@ public class ProgressPage {
 
     public String getTxtFmPricePerQtyUnder1() {
         return this.fmPricePerQtyUnder1.getText();
+    }
+
+    public void selectRecruitmentService() {
+        this.recruitmentService.click();
+    }
+
+    public String getLabelRs() {
+        return this.labelRecruitmentService.getText();
+    }
+
+    public void setRsAmount(Integer amount) {
+        if (amount == -1) {
+            this.rsAmount.clear();
+        } else {
+            this.rsAmount.clear();
+            this.rsAmount.sendKeys(String.valueOf(amount));
+        }
+    }
+
+    public void setRsSalary(Integer salary) {
+        if (salary == -1) {
+            this.rsSalary.clear();
+        } else {
+            this.rsSalary.clear();
+            this.rsSalary.sendKeys(String.valueOf(salary));
+        }
+    }
+
+    public void setRsMfee(Integer mFee) {
+        this.rsMfee.clear();
+        this.rsMfee.sendKeys(String.valueOf(mFee));
+    }
+
+    public int getRsTotalSalary() {
+        String totalSalaryOriginal = this.rsTotalSalary.getAttribute("value");
+        String totalSalaryReplace = totalSalaryOriginal.replaceAll("\\.", "");
+        return Integer.parseInt(totalSalaryReplace);
+    }
+
+    public int getRsSalaryPerYear() {
+        String salaryPerYearOri = this.rsSalaryPerYear.getAttribute("value");
+        String salaryPerYearReplace = salaryPerYearOri.replaceAll("\\.", "");
+        return Integer.parseInt(salaryPerYearReplace);
+    }
+
+    public int getRsTotalFee() {
+        String totalFeeOri = this.rsTotalFee.getAttribute("value");
+        String totalFeeReplace = totalFeeOri.replaceAll("\\.", "");
+        return Integer.parseInt(totalFeeReplace);
+    }
+
+    public int getRsTotalWorker() {
+        String totalWorkerOri = this.rsTotalWorker.getAttribute("value");
+        String totalWorkerReplace = totalWorkerOri.replaceAll("\\.", "");
+        return Integer.parseInt(totalWorkerReplace);
+    }
+
+    public String getRsAmountEmpty() {
+        return this.rsAmountEmpty.getText();
+    }
+
+    public String getRsSalaryEmpty() {
+        return this.rsSalaryEmpty.getText();
+    }
+
+    public String getRsAmountUnder1() {
+        return this.rsAmountUnder1.getText();
+    }
+
+    public String getRsSalaryUnder1() {
+        return this.rsSalaryUnder1.getText();
+    }
+
+    //Training
+    public void selectTraining() {
+        this.training.click();
+    }
+
+    public String getLabelTraining() {
+        return this.labelTraining.getText();
+    }
+
+    public void setTrainQty(Integer qty) {
+        if (qty == -1) {
+            this.trainingQty.clear();
+        } else {
+            this.trainingQty.clear();
+            this.trainingQty.sendKeys(String.valueOf(qty));
+        }
+    }
+
+    public void setTrainPricePerQty(Integer pricePerQty) {
+        if (pricePerQty == -1) {
+            this.trainingPricePerQty.clear();
+        } else {
+            this.trainingPricePerQty.clear();
+            this.trainingPricePerQty.sendKeys(String.valueOf(pricePerQty));
+        }
+    }
+
+    public void setTrainPpn(Integer index) {
+        Select dropPpn = new Select(trainingIsPpn);
+        dropPpn.selectByIndex(index);
+    }
+
+    public int getTrainingTotal() {
+        String trainingTotalOri = this.trainingTotal.getAttribute("value");
+        String trainingTotalReplace = trainingTotalOri.replaceAll("\\.", "");
+        return Integer.parseInt(trainingTotalReplace);
+    }
+
+    public int getTrainingPpn() {
+        String trainingPpnOri = this.trainingPpn.getAttribute("value");
+        String trainingPpnReplace = trainingPpnOri.replaceAll("\\.", "");
+        return Integer.parseInt(trainingPpnReplace);
+    }
+
+    public int getTrainingGrandTotal() {
+        String trainingGrandTotalOri = this.trainingGrandTotal.getAttribute("value");
+        String trainingGrandTotalReplace = trainingGrandTotalOri.replaceAll("\\.", "");
+        return Integer.parseInt(trainingGrandTotalReplace);
+    }
+
+    public int getTrainingTotalCost() {
+        String trainingTotalCostOri = this.trainingTotalCost.getAttribute("value");
+        String trainingTotalCostReplace = trainingTotalCostOri.replaceAll("\\.", "");
+        return Integer.parseInt(trainingTotalCostReplace);
+    }
+
+    public int getTrainingLoss() {
+        String trainingLossOri = this.trainingLoss.getAttribute("value");
+        String trainingLossReplace = trainingLossOri.replaceAll("\\.", "");
+        return Integer.parseInt(trainingLossReplace);
+    }
+
+    public String getTxtTrainingQtyEmpty() {
+        return this.trainingQtyEmpty.getText();
+    }
+
+    public String getTxtTrainingPricePerQtyEmpty() {
+        return this.trainingPricePerQtyEmpty.getText();
+    }
+
+    public String getTxtTrainingMinQty() {
+        return this.trainingMinQty.getText();
+    }
+
+    public String getTxtTrainingPpnEmpty() {
+        return this.trainingIsPpnEmpty.getText();
+    }
+
+    public String getTxtTrainingMinPricePerQty() {
+        return this.trainingMinPricePerQty.getText();
+    }
+
+    //FUNDS
+    public int getEstimateFound() {
+        String ori = this.estimatedFund.getAttribute("value");
+        String replace = ori.replaceAll("\\.", "");
+        return Integer.parseInt(replace);
+    }
+
+    public void setPaymentTerm(int paymentTerm) {
+        this.paymentTerm.clear();
+        this.paymentTerm.sendKeys(String.valueOf(paymentTerm));
+    }
+
+    public int getFundTurnoverMonth() {
+        return Integer.parseInt(fundTurnoverMonth.getAttribute("value"));
+    }
+
+    public int getFundTurnover() {
+        String ori = this.fundTurnover.getAttribute("value");
+        String replace = ori.replaceAll("\\.", "");
+        return Integer.parseInt(replace);
+    }
+
+    public String getPaymentTermMinValue() {
+        return this.paymentTermMinValue.getText();
+    }
+
+    public String getPaymentTermMaxValue() {
+        return this.paymentTermMaxValue.getText();
+    }
+
+    //CLIENT DATA ASSESSMENT
+    public void setEstablishedYear(String year) {
+        this.establishedYear.clear();
+        this.establishedYear.sendKeys(year);
+    }
+
+    public void setTotalEmployee(String totalEmployee) {
+        this.totalEmployees.clear();
+        this.totalEmployees.sendKeys(totalEmployee);
+    }
+
+    public void setOfficeType(int index) {
+        Select dropdownOfficeType = new Select(officeType);
+        dropdownOfficeType.selectByIndex(index);
+    }
+
+    public String getEstablishedYearEmpty() {
+        return this.establishedYearEmpty.getText();
+    }
+
+    public String getTotalEmployeeEmpty() {
+        return this.totalEmployeesEmpty.getText();
+    }
+
+    public String getOfficeTypeEmpty() {
+        return this.officeTypeEmpty.getText();
+    }
+
+    public void setCompanyRating(int index) {
+        Select drpCompanyRating = new Select(this.companyRating);
+        drpCompanyRating.selectByIndex(index);
+    }
+
+    public String getCompanyRatingEmpty() {
+        return this.companyRatingEmpty.getText();
+    }
+
+    public void setFinansial(int index) {
+        Select drpFinansial = new Select(this.finansial);
+        drpFinansial.selectByIndex(index);
+    }
+
+    public String getFinansialEmpty() {
+        return this.finansialEmpty.getText();
+    }
+
+    public void setOjk(int index) {
+        Select drpOjk = new Select(ojk);
+        drpOjk.selectByIndex(index);
+    }
+
+    public void setAftech(int index) {
+        Select drpAftech = new Select(aftech);
+        drpAftech.selectByIndex(index);
+    }
+
+    public void setAfpi(int index) {
+        Select drpAfpi = new Select(afpi);
+        drpAfpi.selectByIndex(index);
+    }
+
+    public String getOjkEmpty() {
+        return this.ojkEmpty.getText();
+    }
+
+    public String getAftechEmpty() {
+        return this.aftechEmpty.getText();
+    }
+
+    public String getAfpiEmpty() {
+        return this.afpiEmpty.getText();
+    }
+
+    public void setCompanyOwner(int index) {
+        Select drpCompanyOwner = new Select(companyOwner);
+        drpCompanyOwner.selectByIndex(index);
+    }
+
+    public void setOwnerName(String status) {
+        faker = new Faker();
+        if (status.equals("owner name empty")) {
+            this.ownerName.clear();
+        } else {
+            this.ownerName.clear();
+            this.ownerName.sendKeys(faker.name().fullName());
+        }
+    }
+
+    public void setDirectorUtama() {
+        faker = new Faker();
+        this.directorUtama.clear();
+        this.directorUtama.sendKeys(faker.name().fullName());
+    }
+
+    public void setDireksi1() {
+        faker = new Faker();
+        this.direksi1.clear();
+        this.direksi1.sendKeys(faker.name().fullName());
+    }
+
+    public void setDireksi2() {
+        faker = new Faker();
+        this.direksi2.clear();
+        this.direksi2.sendKeys(faker.name().fullName());
+    }
+
+    public void setDireksi3() {
+        faker = new Faker();
+        this.direksi3.clear();
+        this.direksi3.sendKeys(faker.name().fullName());
+    }
+
+    public void setCompanyInfo(int index){
+        Select drpCompanyInfo = new Select(companyInfo);
+        drpCompanyInfo.selectByIndex(index);
+    }
+
+    public void setAdditionalInfo(){
+        faker = new Faker();
+        this.additionalInfo.clear();
+        this.additionalInfo.sendKeys(faker.lorem().sentence());
+    }
+
+    public String getCompanyOwnerEmpty(){
+        return this.companyOwnerEmpty.getText();
+    }
+    public String getOwnerNameEmpty(){
+        return this.ownerNameEmpty.getText();
+    }
+    public String getCompanyInfoEmpty(){
+        return this.companyInfoEmpty.getText();
+    }
+
+    //Submit data Client Assessment
+    public void clickBtnSubmitCA(){
+        this.btnSubmitCa.click();
+    }
+
+    public String getAlertSuccessCa(){
+        return this.alertSuccessCA.getText();
     }
 
 

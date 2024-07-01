@@ -18,18 +18,20 @@ public class DashboardPage {
     }
 
 
-    @FindBy(xpath = "//div[@class='progress__sumary__item css-4owc3s']//div[@class='css-xyj9qw']")
+    @FindBy(xpath = "/html/body/div[1]/div/div[3]/div[1]/div/div/div[2]/div[1]/div/div/div[2]/div[1]/div[1]")
     WebElement cardProspect;
-    @FindBy(xpath = "//div[@class='progress__sumary__item css-eq3fzu']//div[@class='css-xyj9qw']")
+    @FindBy(xpath = "/html/body/div[1]/div/div[3]/div[1]/div/div/div[2]/div[1]/div/div/div[2]/div[2]")
     WebElement cardShareCompro;
-    @FindBy(xpath = "//div[@class='progress__sumary__item css-65qob5']//div[@class='css-xyj9qw']")
+    @FindBy(xpath = "/html/body/div[1]/div/div[3]/div[1]/div/div/div[2]/div[1]/div/div/div[2]/div[3]")
     WebElement cardInitialMeeting;
-    @FindBy(xpath = "//div[@class='progress__sumary__item css-1g6pzlk']//div[@class='css-xyj9qw']")
+    @FindBy(xpath = "/html/body/div[1]/div/div[3]/div[1]/div/div/div[2]/div[1]/div/div/div[2]/div[4]")
     WebElement cardClientAssessment;
-    @FindBy(xpath = "//div[@class='progress__sumary__item css-vrqqem']//div[@class='css-xyj9qw']")
+    @FindBy(xpath = "/html/body/div[1]/div/div[3]/div[1]/div/div/div[2]/div[1]/div/div/div[2]/div[5]")
     WebElement cardComplete;
-    @FindBy(xpath = "//div[@class='progress__sumary__item css-z146qs']//div[@class='css-xyj9qw']")
+    @FindBy(xpath = "/html/body/div[1]/div/div[3]/div[1]/div/div/div[2]/div[1]/div/div/div[2]/div[6]")
     WebElement cardClientDrop;
+    @FindBy(xpath = "/html/body/div[1]/div/div[3]/div[1]/div/div/div[2]/div[1]/div/div/div[2]/div[7]")
+    WebElement cardSuratPenawaran;
     @FindBy(xpath = "//div[@class='css-15xeu5g']//table[@role='table']/tbody/tr")
     List<WebElement> listClient;
     @FindBy(xpath = "/html/body/div[1]/div/div[3]/div[1]/div/div/div/div[1]/div/div/div[2]/div[1]/div[1]/div[2]/p[1]")
@@ -49,7 +51,8 @@ public class DashboardPage {
     WebElement listClientProgress;
     @FindBy(xpath = "//p[@class='chakra-text text__warp css-lg5qd5']")
     WebElement companyNameProgress;
-    @FindBy(xpath = "//a[normalize-space()='']//img")
+
+    @FindBy(xpath = "//a[@href='/xpipe/admin/dashboard']")
     WebElement btnDashboard;
 
 

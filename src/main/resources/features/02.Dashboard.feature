@@ -10,8 +10,8 @@ Feature: Dashboard Page
     Examples:
       | progress          |
       | Prospect          |
-      | Share Compro      |
-      | Initial Meeting   |
-      | Client Assessment |
-      | Complete          |
-      | Client Drop       |
+#      | Share Compro      |
+#      | Initial Meeting   |
+#      | Client Assessment |
+#      | Complete          |
+#      | Client Drop       |

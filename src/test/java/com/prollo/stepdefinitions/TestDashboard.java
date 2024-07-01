@@ -28,7 +28,7 @@ public class TestDashboard {
     public void click_menu_dashboard() {
         Hooks.delay(1);
         dashboardPage.clickBtnDashboard();
-        extentTest.log(LogStatus.PASS, "Clik meny dashboard");
+        extentTest.log(LogStatus.PASS, "Clik menu dashboard");
     }
 
     @When("click summary progress {string}")

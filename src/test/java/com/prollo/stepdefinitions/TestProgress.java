@@ -4,10 +4,9 @@ import com.prollo.hooks.Hooks;
 import com.prollo.pages.ProgressPage;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
-import io.cucumber.java.bs.A;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.messages.types.Hook;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
@@ -20,7 +19,10 @@ public class TestProgress {
     private String companyName, productNameShareCompro, brandNameInitialMeetings, companyNameInitialMeetings;
     private int nJumlahTK, nBiayaGaji, nManagementFee, nPpn, nQty, nHargaPerQty, nPpnJobSupply, resultBiayaGaji, resultManagementFee,
             resultTotal, resultPPN, resultGrandTotal, jobSupplyTotalCost, jobSupplyPPN, jobSupplyGrandTotal, jobSupplyTotalBiaya, jobSupplyLaba,
-            fmQty, fmPricePerQty, fmPpn, fmTotalResult, fmPpnResult, fmGrandTotal, fmTotalPayment, fmLoss;
+            fmQty, fmPricePerQty, fmPpn, fmTotalResult, fmPpnResult, fmGrandTotal, fmTotalPayment, fmLoss,
+            rsAmount, rsSalary, rsMfee, rsTotalSalary, rsSalaryPerYear, rsTotalFee, rsTotalWorker,
+            tQty, tPricePerQty, tPpn, trainingTotal, trainingPpn, trainingGrandTotal, trainingTotalCost, trainingLoss,
+            fPaymentTerm, fundTurnoverMonth, fundTunrover, fEstimateFund;
     private Random rand = new Random();
 
     public TestProgress() {
@@ -914,9 +916,9 @@ public class TestProgress {
         extentTest.log(LogStatus.PASS, "Click button calculate facility management");
     }
 
-    @Then("validate input cooperation facility management {string}")
-    public void validate_input_cooperation_facility_management(String status) {
-        Hooks.delay(1);
+    @Then("validate input cooperation facility management {string} {int}")
+    public void validate_input_cooperation_facility_management(String status, int ppn) {
+        Hooks.delay(0.5);
         //Calculate
         fmTotalResult = fmQty * fmPricePerQty;
         fmPpnResult = (fmTotalResult * fmPpn) / 100;
@@ -924,15 +926,532 @@ public class TestProgress {
         fmTotalPayment = (70 * fmTotalResult) / 100;
         fmLoss = fmTotalResult - fmTotalPayment;
 
-        switch (status) {
-            case "success" -> {
-                Assert.assertEquals(progressPage.getFmTotal(), fmTotalResult);
-                Assert.assertEquals(progressPage.getFmPpn(), fmPpnResult);
-                Assert.assertEquals(progressPage.getFmGrandTotal(), fmGrandTotal);
-                Assert.assertEquals(progressPage.getFmTotalPayment(), fmTotalPayment);
-                Assert.assertEquals(progressPage.getFmLoss(), fmLoss);
+        if (status.equals("empty qty target")) {
+            Assert.assertEquals(progressPage.getTxtEmptyFmQty(), "Qty/Target harus diinput");
+            extentTest.log(LogStatus.PASS, "Validate input cooperation facility management with Qty target empty");
+        } else if (status.equals("empty harga per qty")) {
+            Assert.assertEquals(progressPage.getTxtEmptyFmPricePerQty(), "Harga per QTY harus diinput");
+            extentTest.log(LogStatus.PASS, "Validate input cooperation facility management with harga per Qty empty");
+        } else if (status.equals("qty target under 1")) {
+            Assert.assertEquals(progressPage.getTxtFmQtyUnder1(), "Minimal Qty adalah 1");
+            extentTest.log(LogStatus.PASS, "Validate input cooperation facility management with Qty target under 1");
+        } else if (status.equals("harga per qty under 1")) {
+            Assert.assertEquals(progressPage.getTxtFmPricePerQtyUnder1(), "Minimal Harga per QTY adalah 1");
+            extentTest.log(LogStatus.PASS, "Validate input cooperation facility management with harga per Qty under 1");
+        } else if (status.equals("empty ppn")) {
+            Assert.assertEquals(progressPage.getTxtEmptyFmPpn(), "Pilih Salah satu sumber PPN");
+            extentTest.log(LogStatus.PASS, "Validate input cooperation facility management with ppn empty");
+        } else if (status.equals("success") || status.equals("does't use ppn")) {
+            Assert.assertEquals(progressPage.getFmTotal(), fmTotalResult);
+            Assert.assertEquals(progressPage.getFmPpn(), fmPpnResult);
+            Assert.assertEquals(progressPage.getFmGrandTotal(), fmGrandTotal);
+            Assert.assertEquals(progressPage.getFmTotalPayment(), fmTotalPayment);
+            Assert.assertEquals(progressPage.getFmLoss(), fmLoss);
+            extentTest.log(LogStatus.PASS, "Successful validation of facility management form input");
+            Hooks.delay(0.5);
+            if (ppn == 1) {
+                progressPage.selectFacilityManagement();
             }
         }
+//        switch (status) {
+//            case "empty qty target" -> {
+//                Assert.assertEquals(progressPage.getTxtEmptyFmQty(), "Qty/Target harus diinput");
+//                extentTest.log(LogStatus.PASS, "Validate input cooperation facility management with Qty target empty");
+//            }
+//            case "empty harga per qty" -> {
+//                Assert.assertEquals(progressPage.getTxtEmptyFmPricePerQty(), "Harga per QTY harus diinput");
+//                extentTest.log(LogStatus.PASS, "Validate input cooperation facility management with harga per Qty empty");
+//            }
+//            case "qty target under 1" -> {
+//                Assert.assertEquals(progressPage.getTxtFmQtyUnder1(), "Minimal Qty adalah 1");
+//                extentTest.log(LogStatus.PASS, "Validate input cooperation facility management with Qty target under 1");
+//            }
+//            case "harga per qty under 1" -> {
+//                Assert.assertEquals(progressPage.getTxtFmPricePerQtyUnder1(), "Minimal Harga per QTY adalah 1");
+//                extentTest.log(LogStatus.PASS, "Validate input cooperation facility management with harga per Qty under 1");
+//            }
+//            case "empty ppn" -> {
+//                Assert.assertEquals(progressPage.getTxtEmptyFmPpn(), "Pilih Salah satu sumber PPN");
+//                extentTest.log(LogStatus.PASS, "Validate input cooperation facility management with ppn empty");
+//            }
+//
+//            default -> {
+//                Assert.assertEquals(progressPage.getFmTotal(), fmTotalResult);
+//                Assert.assertEquals(progressPage.getFmPpn(), fmPpnResult);
+//                Assert.assertEquals(progressPage.getFmGrandTotal(), fmGrandTotal);
+//                Assert.assertEquals(progressPage.getFmTotalPayment(), fmTotalPayment);
+//                Assert.assertEquals(progressPage.getFmLoss(), fmLoss);
+//                extentTest.log(LogStatus.PASS, "Successful validation of facility management form input");
+//                Hooks.delay(1);
+//                progressPage.selectFacilityManagement();
+//            }
+//        }
+    }
+
+    // RECRUITMENT SERVICE
+    @When("checklist jenis kerjasama recruitment service")
+    public void checklist_jenis_kerjasama_recruitment_service() {
+        Hooks.delay(0.5);
+        progressPage.selectRecruitmentService();
+        extentTest.log(LogStatus.PASS, "Checklist jenis kerjasama recruitment service");
+    }
+
+    @Then("validate input coorperation recruitment service")
+    public void validate_input_coorperation_recruitment_service() {
+        Hooks.delay(0.5);
+        Assert.assertEquals(progressPage.getLabelRs(), "Recruitment Services");
+        extentTest.log(LogStatus.PASS, "Validate input coorperation recruitment services");
+    }
+
+    @When("input jumlah tk recruitment service {int}")
+    public void input_jumlah_tk_recruitment_service(Integer amount) {
+        Hooks.delay(0.5);
+        rsAmount = amount;
+        progressPage.setRsAmount(amount);
+        extentTest.log(LogStatus.PASS, "Input jumlah tk recruitment service");
+    }
+
+    @When("input biaya gaji tk recruitment service {int}")
+    public void input_biaya_gaji_tk_recruitment_service(Integer salary) {
+        Hooks.delay(0.5);
+        rsSalary = salary;
+        progressPage.setRsSalary(salary);
+        extentTest.log(LogStatus.PASS, "Input biaya gaji tk recruitment service");
+    }
+
+    @When("input management fee recruitment service {int}")
+    public void input_management_fee_recruitment_service(Integer mfee) {
+        Hooks.delay(0.5);
+        rsMfee = mfee;
+        progressPage.setRsMfee(mfee);
+        extentTest.log(LogStatus.PASS, "Input management fee recruitment service");
+    }
+
+    @When("click button calculate recruitment service")
+    public void click_button_calculate_recruitment_service() {
+        Hooks.delay(0.5);
+        progressPage.clickBtnCalculate();
+        extentTest.log(LogStatus.PASS, "click button calculate recruitment service");
+    }
+
+    @Then("validate input coorperation recruitment service {string}")
+    public void validate_input_coorperation_recruitment_service(String status) {
+        Hooks.delay(0.5);
+
+        switch (status) {
+            case "amount empty" -> {
+                Assert.assertEquals(progressPage.getRsAmountEmpty(), "Jumlah TK harus diinput");
+                extentTest.log(LogStatus.PASS, "Validate input cooperation Recruitment services with jumlah tk empty");
+            }
+            case "salary empty" -> {
+                Assert.assertEquals(progressPage.getRsSalaryEmpty(), "Biaya Gaji/Tk harus diinput");
+                extentTest.log(LogStatus.PASS, "Validate input cooperation Recruitment services with Biaya gaji/tk empty");
+            }
+            case "amount under 1" -> {
+                Assert.assertEquals(progressPage.getRsAmountUnder1(), "Minimal Jumlah Tk minimal adalah 1");
+                extentTest.log(LogStatus.PASS, "Validate input cooperation Recruitment services with jumlah tk under 1");
+            }
+            case "salary under 1" -> {
+                Assert.assertEquals(progressPage.getRsSalaryUnder1(), "Minimal Biaya Gaji/Tk minimal adalah Rp 1");
+                extentTest.log(LogStatus.PASS, "Validate input cooperation Recruitment services with biaya gaji/tk under 1");
+            }
+            case "success" -> {
+                //Calculate Recruitment Services
+                rsTotalSalary = rsAmount * rsSalary;
+                rsSalaryPerYear = rsTotalSalary * 13;
+                rsTotalFee = (rsSalaryPerYear * rsMfee) / 100;
+                rsTotalWorker = rsTotalFee / rsAmount;
+                //Validation calculate Recruitment services
+                Assert.assertEquals(progressPage.getRsTotalSalary(), rsTotalSalary);
+                Assert.assertEquals(progressPage.getRsSalaryPerYear(), rsSalaryPerYear);
+                Assert.assertEquals(progressPage.getRsTotalFee(), rsTotalFee);
+                Assert.assertEquals(progressPage.getRsTotalWorker(), rsTotalWorker);
+                extentTest.log(LogStatus.PASS, "Successful validation of Recruitment service form input");
+                Hooks.delay(1);
+                progressPage.selectRecruitmentService();
+            }
+        }
+    }
+
+    //TRAINING
+    @When("checklist jenis kerjasama training")
+    public void checklist_jenis_kerjasama_training() {
+        Hooks.delay(0.5);
+        progressPage.selectTraining();
+        extentTest.log(LogStatus.PASS, "checklist jenis kerjasama training");
+    }
+
+    @Then("validate input coorperation training")
+    public void validate_input_coorperation_training() {
+        Hooks.delay(0.5);
+        Assert.assertEquals(progressPage.getLabelTraining(), "Training");
+        extentTest.log(LogStatus.PASS, "validate input coorperation training");
+    }
+
+    @When("input qty target training {int}")
+    public void input_qty_target_training(Integer qty) {
+        Hooks.delay(0.5);
+        tQty = qty;
+        progressPage.setTrainQty(qty);
+        extentTest.log(LogStatus.PASS, "Input qty target training");
+    }
+
+    @When("input harga per qty training {int}")
+    public void input_harga_per_qty_training(Integer pricePerQty) {
+        Hooks.delay(0.5);
+        tPricePerQty = pricePerQty;
+        progressPage.setTrainPricePerQty(pricePerQty);
+        extentTest.log(LogStatus.PASS, "Input harga per qty training");
+    }
+
+    @When("pilih ppn training {int}")
+    public void pilih_ppn_training(Integer ppn) {
+        Hooks.delay(0.5);
+        if (ppn == 1) {
+            tPpn = 11;
+        } else {
+            tPpn = 0;
+        }
+        progressPage.setTrainPpn(ppn);
+        extentTest.log(LogStatus.PASS, "pilih ppn training");
+
+    }
+
+    @When("click button calculate training")
+    public void click_button_calculate_training() {
+        Hooks.delay(0.5);
+        progressPage.clickBtnCalculate();
+        extentTest.log(LogStatus.PASS, "Click button calculate training");
+    }
+
+    @Then("validate input cooperation training {string} {int}")
+    public void validate_input_cooperation_training(String status, Integer ppn) {
+        Hooks.delay(0.5);
+
+        switch (status) {
+            case "empty qty target" -> {
+                Assert.assertEquals(progressPage.getTxtTrainingQtyEmpty(), "Qty/Target harus diinput");
+                extentTest.log(LogStatus.PASS, "Validate input cooperation training with qty target empty");
+            }
+            case "empty harga per qty" -> {
+                Assert.assertEquals(progressPage.getTxtTrainingPricePerQtyEmpty(), "Harga per QTY harus diinput");
+                extentTest.log(LogStatus.PASS, "Validate input cooperation training with price per qty empty");
+            }
+            case "qty target under 1" -> {
+                Assert.assertEquals(progressPage.getTxtTrainingMinQty(), "Minimal Qty adalah 1");
+                extentTest.log(LogStatus.PASS, "Validate input cooperation training with qty input minimal value");
+            }
+            case "harga per qty under 1" -> {
+                Assert.assertEquals(progressPage.getTxtTrainingMinPricePerQty(), "Minimal Harga per QTY adalah Rp 1");
+                extentTest.log(LogStatus.PASS, "Validate input cooperation training with price per qty input minimal value");
+            }
+            case "empty ppn" -> {
+                Assert.assertEquals(progressPage.getTxtTrainingPpnEmpty(), "Pilih Salah satu sumber PPN");
+                extentTest.log(LogStatus.PASS, "Validate input cooperation training with empty Ppn");
+            }
+            default -> {
+                //Calculate Training
+                trainingTotal = tQty * tPricePerQty;
+                trainingPpn = (trainingTotal * tPpn) / 100;
+                trainingGrandTotal = trainingTotal + trainingPpn;
+                trainingTotalCost = (70 * trainingTotal) / 100;
+                trainingLoss = trainingTotal - trainingTotalCost;
+                fEstimateFund = trainingGrandTotal;
+
+                //Validation
+                Assert.assertEquals(progressPage.getTrainingTotal(), trainingTotal);
+                Assert.assertEquals(progressPage.getTrainingPpn(), trainingPpn);
+                Assert.assertEquals(progressPage.getTrainingGrandTotal(), trainingGrandTotal);
+                Assert.assertEquals(progressPage.getTrainingTotalCost(), trainingTotalCost);
+                Assert.assertEquals(progressPage.getTrainingLoss(), trainingLoss);
+                extentTest.log(LogStatus.PASS, "Successful validation of Training form input");
+                Hooks.delay(1);
+            }
+        }
+    }
+
+    //FUNDS
+    @Then("validation fund according to cooperative calculations")
+    public void validation_fund_according_to_cooperative_calculations() {
+        Hooks.delay(0.5);
+        fEstimateFund = progressPage.getTrainingGrandTotal();
+        Assert.assertEquals(progressPage.getEstimateFound(), fEstimateFund);
+        extentTest.log(LogStatus.PASS, "Validation fund according to cooperative calculations");
+    }
+
+    @When("input payment term {int}")
+    public void input_payment_term(int paymentTerm) {
+        Hooks.delay(0.5);
+        fPaymentTerm = paymentTerm;
+        progressPage.setPaymentTerm(paymentTerm);
+        extentTest.log(LogStatus.PASS, "input payment term");
+    }
+
+    @Then("check fund turnover month {string}")
+    public void check_fund_turnover_month(String status) {
+        Hooks.delay(0.5);
+
+        switch (status) {
+            case "payment term min value" -> {
+                Assert.assertEquals(progressPage.getPaymentTermMinValue(), "Termin Pembayaran minimal 1 Bulan");
+                extentTest.log(LogStatus.PASS, "check fund turnover month with input payment term min value");
+            }
+            case "payment term max value" -> {
+                Assert.assertEquals(progressPage.getPaymentTermMaxValue(), "Termin Pembayaran tidak boleh lebih dari 3 Bulan");
+                extentTest.log(LogStatus.PASS, "check fund turnover month with input payment term max value");
+            }
+            default -> {
+                fundTurnoverMonth = fPaymentTerm + 2;
+
+                Assert.assertEquals(progressPage.getFundTurnoverMonth(), fundTurnoverMonth);
+                extentTest.log(LogStatus.PASS, "check fund turnover month");
+            }
+
+        }
+    }
+
+    @Then("check result fund turn over {string}")
+    public void check_result_fund_turn_over(String status) {
+        Hooks.delay(0.5);
+
+        switch (status) {
+            case "payment term min value" -> {
+                Assert.assertEquals(progressPage.getPaymentTermMinValue(), "Termin Pembayaran minimal 1 Bulan");
+                extentTest.log(LogStatus.PASS, "check fund turnover month with input payment term min value");
+            }
+            case "payment term max value" -> {
+                Assert.assertEquals(progressPage.getPaymentTermMaxValue(), "Termin Pembayaran tidak boleh lebih dari 3 Bulan");
+                extentTest.log(LogStatus.PASS, "check fund turnover month with input payment term max value");
+            }
+            default -> {
+                fEstimateFund = progressPage.getTrainingGrandTotal();
+                fundTunrover = fEstimateFund * fundTurnoverMonth;
+                Assert.assertEquals(progressPage.getFundTurnover(), fundTunrover);
+                extentTest.log(LogStatus.PASS, "check result fund turn over");
+            }
+        }
+    }
+
+    // CLIENT DATA ASSESSMENT - GENERAL
+    @When("input established year {string}")
+    public void input_established_year(String year) {
+        Hooks.delay(0.5);
+        progressPage.setEstablishedYear(year);
+        extentTest.log(LogStatus.PASS, "input established year");
+    }
+
+    @When("input total employees {string}")
+    public void input_total_employees(String totalEmployee) {
+        Hooks.delay(0.5);
+        progressPage.setTotalEmployee(totalEmployee);
+        extentTest.log(LogStatus.PASS, "input total employees");
+    }
+
+    @When("select office type {int}")
+    public void select_office_type(Integer index) {
+        Hooks.delay(0.5);
+        progressPage.setOfficeType(index);
+        extentTest.log(LogStatus.PASS, "select office type");
+    }
+
+    @Then("validate input form CA General {string}")
+    public void validate_input_form_ca_general(String status) {
+        Hooks.delay(0.5);
+
+        switch (status) {
+            case "established year empty" -> {
+                Assert.assertEquals(progressPage.getEstablishedYearEmpty(), "Tahun Berdiri Harus Diisi!");
+                extentTest.log(LogStatus.PASS, "Validate input form CA General with established year empty");
+            }
+            case "total employee empty" -> {
+                Assert.assertEquals(progressPage.getTotalEmployeeEmpty(), "Total Karyawan Harus Diisi!");
+                extentTest.log(LogStatus.PASS, "Validate input form CA General with total employee empty");
+            }
+            case "office type empty" -> {
+                Assert.assertEquals(progressPage.getOfficeTypeEmpty(), "Tipe Gedung Harus Dipilih!");
+                extentTest.log(LogStatus.PASS, "Validate input form CA General with office type empty");
+            }
+            default -> extentTest.log(LogStatus.PASS, "Validate input form CA General with valid credentials");
+        }
+    }
+
+    //CLIENT DATA ASSESSMENT - COMPANY RATING
+    @When("select company rating {int}")
+    public void select_company_rating(Integer index) {
+        Hooks.delay(0.5);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", progressPage.companyRating);
+        progressPage.setCompanyRating(index);
+        extentTest.log(LogStatus.PASS, "select company rating");
+    }
+
+    @Then("validate input form CA company rating {string}")
+    public void validate_input_form_ca_company_rating(String status) {
+        Hooks.delay(0.5);
+        if ("company rating empty".equals(status)) {
+            Assert.assertEquals(progressPage.getCompanyRatingEmpty(), "Rating Harus Dipilih!");
+            extentTest.log(LogStatus.PASS, "validate input form CA company rating is empty");
+        } else {
+            extentTest.log(LogStatus.PASS, "validate input form CA company rating");
+        }
+    }
+
+    //CLIENT DATA ASSESSMENT - FINANSIAL
+    @When("select finansial {int}")
+    public void select_finansial(Integer index) {
+        Hooks.delay(0.5);
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", progressPage.finansial);
+        progressPage.setFinansial(index);
+        extentTest.log(LogStatus.PASS, "Select finansial");
+    }
+
+    @Then("validate input form CA finansial {string}")
+    public void validate_input_form_ca_finansial(String status) {
+        Hooks.delay(0.5);
+        if ("finansial empty".equals(status)) {
+            Assert.assertEquals(progressPage.getFinansialEmpty(), "Finansial Harus Dipilih!");
+            extentTest.log(LogStatus.PASS, "validate input form CA finansial is empty");
+        } else {
+            extentTest.log(LogStatus.PASS, "validate input form CA finansial");
+        }
+    }
+
+    //CLIENT DATA ASSESSMENT - LEGALITAS
+    @When("select ojk {int}")
+    public void select_ojk(Integer ojk) {
+        Hooks.delay(0.5);
+        progressPage.setOjk(ojk);
+        extentTest.log(LogStatus.PASS, "select ojk");
+    }
+
+    @When("select aftech {int}")
+    public void select_aftech(Integer aftech) {
+        Hooks.delay(0.5);
+        progressPage.setAftech(aftech);
+        extentTest.log(LogStatus.PASS, "select aftech");
+    }
+
+    @When("select afpi {int}")
+    public void select_afpi(Integer afpi) {
+        Hooks.delay(0.5);
+        progressPage.setAfpi(afpi);
+        extentTest.log(LogStatus.PASS, "select afpi");
+    }
+
+    @Then("validate input form ca legalitas {string}")
+    public void validate_input_form_ca_legalitas(String status) {
+        Hooks.delay(0.5);
+
+        switch (status) {
+            case "ojk empty" -> {
+                Assert.assertEquals(progressPage.getOjkEmpty(), "OJK Harus Dipilih!");
+                extentTest.log(LogStatus.PASS, "Validate input form CA legalitas with ojk empty");
+            }
+            case "aftech empty" -> {
+                Assert.assertEquals(progressPage.getAftechEmpty(), "AFTECH Harus Dipilih!");
+                extentTest.log(LogStatus.PASS, "Validate input form CA legalitas with aftech empty");
+            }
+            case "afpi empty" -> {
+                Assert.assertEquals(progressPage.getAfpiEmpty(), "AFPI Harus Dipilih!");
+                extentTest.log(LogStatus.PASS, "Validate input form CA legalitas with afpi empty");
+            }
+            default -> extentTest.log(LogStatus.PASS, "Validate input form CA legalitas");
+
+        }
+    }
+
+    //CLIENT DATA ASSESSMENT - Informasi Lainnya
+    @When("select company owner {int}")
+    public void select_company_owner(Integer companyOwner) {
+        Hooks.delay(0.5);
+        progressPage.setCompanyOwner(companyOwner);
+        extentTest.log(LogStatus.PASS, "Select company owner");
+    }
+
+    @When("input owner name {string}")
+    public void input_owner_name(String status) {
+        Hooks.delay(0.5);
+        progressPage.setOwnerName(status);
+        extentTest.log(LogStatus.PASS, "Input owner name");
+    }
+
+    @When("input direktur utama")
+    public void input_direktur_utama() {
+        Hooks.delay(0.5);
+        progressPage.setDirectorUtama();
+        extentTest.log(LogStatus.PASS, "Input direktur utama");
+    }
+
+    @When("input direksi1")
+    public void input_direksi1() {
+        Hooks.delay(0.5);
+        progressPage.setDireksi1();
+        extentTest.log(LogStatus.PASS, "Input direksi1");
+    }
+
+    @When("input direksi2")
+    public void input_direksi2() {
+        Hooks.delay(0.5);
+        progressPage.setDireksi2();
+        extentTest.log(LogStatus.PASS, "Input Direksi2");
+    }
+
+    @When("input direksi3")
+    public void input_direksi3() {
+        Hooks.delay(0.5);
+        progressPage.setDireksi3();
+        extentTest.log(LogStatus.PASS, "Input Direksi3");
+    }
+
+    @When("select company info {int}")
+    public void select_company_info(Integer companyInfo) {
+        Hooks.delay(0.5);
+        progressPage.setCompanyInfo(companyInfo);
+        extentTest.log(LogStatus.PASS, "Select company info");
+    }
+
+    @When("input additional info")
+    public void input_additional_info() {
+        Hooks.delay(0.5);
+        progressPage.setAdditionalInfo();
+        extentTest.log(LogStatus.PASS, "Input Additional info");
+    }
+
+    @Then("validasi input form ca informasi lainnya {string}")
+    public void validasi_input_form_ca_informasi_lainnya(String status) {
+        Hooks.delay(0.5);
+
+        switch (status) {
+            case "company owner empty" -> {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", progressPage.companyOwner);
+                Assert.assertEquals(progressPage.getCompanyOwnerEmpty(), "Pemilik Perusahaan Harus Disi!");
+                extentTest.log(LogStatus.PASS, "Validasi input form CA informasi lainnya with company owner empty");
+            }
+            case "owner name empty" -> {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", progressPage.ownerName);
+                Assert.assertEquals(progressPage.getOwnerNameEmpty(), "Nama Pemilik Harus Disi!");
+                extentTest.log(LogStatus.PASS, "Validasi input form CA informasi lainnya with owner name empty");
+            }
+            case "company info empty" -> {
+                Assert.assertEquals(progressPage.getCompanyInfoEmpty(), "Informasi Perusahaan Harus Disi!");
+                extentTest.log(LogStatus.PASS, "Validasi input form CA informasi lainnya with company info empty");
+            }
+            default -> extentTest.log(LogStatus.PASS, "Validasi success input form ca informasi lainnya");
+        }
+    }
+
+    //Submit data Client Assessment
+    @When("click button submit")
+    public void click_button_submit() {
+        Hooks.delay(0.5);
+        progressPage.clickBtnSubmitCA();
+        extentTest.log(LogStatus.PASS,"Click button submit");
+    }
+
+    @Then("validasi submit form client assessment")
+    public void validasi_submit_form_client_assessment() {
+        Hooks.delay(0.5);
+        Assert.assertEquals(progressPage.getAlertSuccessCa(),"Sukses menambahkan Client Assessment");
+        extentTest.log(LogStatus.PASS,"Validasi submit form client assessment");
     }
 
     //endregion
