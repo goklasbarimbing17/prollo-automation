@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Define environment variables
-        MVN_HOME = tool 'M2' // Path to Maven installation in Jenkins
+        MVN_HOME = tool 'M3' // Path to Maven installation in Jenkins
         JAVA_HOME = tool 'JDK11' // Path to JDK installation in Jenkins
         GIT_CREDENTIALS_ID = '7bdc9e9a-8802-4a71-bae8-46d44cba7aaf' // Your GitHub credentials ID
         TEST_ENV = 'staging' // Example of an environment variable
