@@ -23,20 +23,20 @@ Feature: List Client Page
 
   Scenario Outline: Create New Client
     When select client type client list <clientType>
-    And input company name client list "<companyName>"
-    And input name PIC client list "<namePIC>"
-    And input phone PIC client list "<phonePIC>"
-    And input email PIC client list "<emailPIC>"
+    And input company name client list "<status>"
+    And input name PIC client list
+    And input phone PIC client list
+    And input email PIC client list
     And select source client list <sourceClient>
     And click button create client list
     Then Validate create new client "<txtResult>" "<status>"
 
     Examples: Data table Create new client
-      | clientType | companyName  | namePIC           | phonePIC     | emailPIC            | sourceClient | txtResult                          | status             |
-      | 1          |              | Aji Agung Nugraha | 087654321234 | dummymail@gmail.com | 3            | Nama Perusahaan tidak boleh kosong | Company Name Empty |
-      | 1          | PT DUMMY     | Aji Agung Nugraha | 087654321234 | dummymail@gmail.com | 0            | Source tidak boleh kosong          | Source Empty       |
-      | 1          | PT DUMMY TBK | Aji Agung Nugraha | 087654321234 | dummymail@gmail.com | 2            | Data is duplicate                  | Duplicate          |
-      | 1          | PT DUMMY     | Aji Agung Nugraha | 087654321234 | dummymail@gmail.com | 2            | Sukses menambahkan Client          | Success            |
+      | clientType | sourceClient | status             |
+      | 1          | 3            | Company Name Empty |
+      | 1          | 0            | Source Empty       |
+      | 1          | 2            | Duplicate          |
+      | 1          | 2            | Success            |
 
   Scenario: View detail Client
     When click view detail fitur
@@ -48,15 +48,16 @@ Feature: List Client Page
 
   Scenario Outline: Edit data client
     When select client type edit client <clientType>
-    And input company name edit client "<companyName>"
-    And input name PIC edit client "<namePIC>"
-    And input phone PIC edit client "<phonePIC>"
+    And input company name edit client "<status>"
+    And input name PIC edit client
+    And input phone PIC edit client
     And select source edit client <sourceClient>
     And click button save edit client
-    Then Validate edit client "<txtResult>" "<status>"
+    Then Validate edit client "<status>"
 
     Examples: Data table Create new client
-      | clientType | companyName  | namePIC            | phonePIC     | sourceClient | txtResult                          | status             |
-      | 1          |              | Aji Agung Nugraha  | 087654321234 | 3            | Nama Perusahaan tidak boleh kosong | Company Name Empty |
-      | 1          | PT DUMMY TBK | Aji Agung Nugraha  | 087654321234 | 0            | Source tidak boleh kosong          | Source Empty       |
-      | 1          | PT DUMMY TBK | Adit Agung Nugraha | 087654321234 | 4            | Success edit form                  | Success Edit       |
+      | clientType | sourceClient | status             |
+      | 1          | 3            | Company Name Empty |
+      | 1          | 0            | Source Empty       |
+#      | 1          | 2            | Duplicate          |
+      | 1          | 4            | Success Edit       |

@@ -1,5 +1,6 @@
 package com.prollo.pages;
 
+import com.github.javafaker.Faker;
 import com.prollo.drivers.DriverSingleton;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,10 +9,15 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
 import java.nio.channels.SelectionKey;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
 public class ListClientPage {
     private WebDriver driver;
+    private Faker faker = new Faker(new Locale("id"));
+    private Random random = new Random();
 
     public ListClientPage() {
         this.driver = DriverSingleton.getDriver();
@@ -41,14 +47,10 @@ public class ListClientPage {
     WebElement fieldSource;
     @FindBy(xpath = "//button[normalize-space()='Create']")
     WebElement btnCreateClient;
-    @FindBy(xpath = "/html/body/div[3]/div[4]/div/section/div/div/form/div[2]/div/div[2]")
+    @FindBy(xpath = "//*[contains(text(), 'Nama Perusahaan tidak boleh kosong')]")
     WebElement txtCompanyNameEmpty;
-    @FindBy(xpath = "/html/body/div[4]/div[4]/div/section/div/div/form/div[2]/div/div[2]")
-    WebElement txtCompanyNameEmptyEdit;
-    @FindBy(xpath = "/html/body/div[3]/div[4]/div/section/div/div/form/div[6]/div/div[2]")
+    @FindBy(xpath = "//*[contains(text(), 'Source tidak boleh kosong')]")
     WebElement txtSourceEmpty;
-    @FindBy(xpath = "/html/body/div[4]/div[4]/div/section/div/div/form/div[6]/div/div[2]")
-    WebElement txtSourceEmptyEdit;
     @FindBy(xpath = "//div[@class='chakra-modal__content-container css-ikr2h6']")
     WebElement formAddClient;
     @FindBy(xpath = "(//div[@id='toast-1-title'])[1]")
@@ -83,54 +85,73 @@ public class ListClientPage {
     public void clickProspectMenu() {
         this.prospectMenu.click();
     }
+
     public void clickListClientMenu() {
         this.listClientMenu.click();
     }
-    public String getTxtListClientPage(){
+
+    public String getTxtListClientPage() {
         return this.txtListClientPage.getText();
     }
-    public void setClientType(int index){
+
+    public void setClientType(int index) {
         Select drpClientType = new Select(fieldClientType);
         drpClientType.selectByIndex(index);
     }
-    public void setCompanyName(String comapanyName){
-        this.fieldCompanyName.clear();
-        this.fieldCompanyName.sendKeys(comapanyName);
+
+    public void setCompanyName(String status) {
+        List<String> companyTypes = Arrays.asList("PT", "CV", "UD", "PD", "Koperasi");
+        String companyType = companyTypes.get(random.nextInt(companyTypes.size()));
+        String companyName = faker.company().name();
+        if (status.equals("Company Name Empty")) {
+            this.fieldCompanyName.clear();
+        } else if (status.equals("Duplicate")) {
+            this.fieldCompanyName.clear();
+            this.fieldCompanyName.sendKeys("PT DUMMY TBK 12");
+        } else {
+            this.fieldCompanyName.clear();
+            this.fieldCompanyName.sendKeys(String.format("%s %s",companyType,companyName));
+        }
     }
-    public void setNamePIC(String namePIC){
+
+    public void setNamePIC() {
         this.fieldNamePIC.clear();
-        this.fieldNamePIC.sendKeys(namePIC);
+        this.fieldNamePIC.sendKeys(faker.name().fullName());
     }
-    public void setPhonePIC(String phonePIC){
+
+    public void setPhonePIC() {
+        String prefix ="08";
+        String suffix = faker.number().digits(10);
         this.fieldPhonePIC.clear();
-        this.fieldPhonePIC.sendKeys(phonePIC);
+        this.fieldPhonePIC.sendKeys(prefix + suffix);
     }
-    public void setEmailPIC(String emailPIC){
+
+    public void setEmailPIC() {
         this.fieldEmailPIC.clear();
-        this.fieldEmailPIC.sendKeys(emailPIC);
+        this.fieldEmailPIC.sendKeys(faker.internet().emailAddress());
     }
-    public void setSourceNewClient(int index){
+
+    public void setSourceNewClient(int index) {
         Select drpSource = new Select(fieldSource);
         drpSource.selectByIndex(index);
     }
-    public void clickBtnCreate(){
+
+    public void clickBtnCreate() {
         this.btnCreateClient.click();
     }
-    public String getTxtCompanyNameEmpty(){
+
+    public String getTxtCompanyNameEmpty() {
         return this.txtCompanyNameEmpty.getText();
     }
-    public String getTxtCompanyNameEmptyEdit(){
-        return this.txtCompanyNameEmptyEdit.getText();
-    }
-    public void clickBtnCreateNewClient(){
+
+    public void clickBtnCreateNewClient() {
         this.btnCreateNewClient.click();
     }
-    public String getTxtSourceEmpty(){
+
+    public String getTxtSourceEmpty() {
         return this.txtSourceEmpty.getText();
     }
-    public String getTxtSourceEmptyEdit(){
-        return this.txtSourceEmptyEdit.getText();
-    }
+
     public String validateFormAddClient() {
         String result = "";
         if (formAddClient.isDisplayed()) {
@@ -140,18 +161,23 @@ public class ListClientPage {
         }
         return result;
     }
+
     public String getAlertSuccessAddProspect() {
         return this.alertSuccessAddProspect.getText();
     }
+
     public String getTxtNewProspect() {
         return this.txtNewProspect.getText();
     }
+
     public String getTxtCompanyName() {
         return this.txtCompanyName.getText();
     }
-    public void clickBtnDetail(){
+
+    public void clickBtnDetail() {
         this.btnDetail.click();
     }
+
     public String validateFormEditClient() {
         String result = "";
         if (formEditClient.isDisplayed()) {
@@ -161,46 +187,62 @@ public class ListClientPage {
         }
         return result;
     }
-    public void clickBtnEdit(){
+
+    public void clickBtnEdit() {
         this.btnEdit.click();
     }
-    public boolean checkFieldClientType(){
+
+    public boolean checkFieldClientType() {
         return this.fieldClientType.isEnabled();
     }
-    public boolean checkFieldCompanyName(){
+
+    public boolean checkFieldCompanyName() {
         return this.fieldCompanyName.isEnabled();
     }
-    public boolean checkFieldPicName(){
+
+    public boolean checkFieldPicName() {
         return this.fieldNamePIC.isEnabled();
     }
-    public boolean checkFieldTelpPic(){
+
+    public boolean checkFieldTelpPic() {
         return this.fieldPhonePIC.isEnabled();
     }
-    public boolean checkFieldEmailPic(){
+
+    public boolean checkFieldEmailPic() {
         return this.fieldEmailPIC.isEnabled();
     }
-    public boolean checkFieldSource(){
+
+    public boolean checkFieldSource() {
         return this.fieldSource.isEnabled();
     }
-    public void clickBtnSaveEditClient(){
+
+    public void clickBtnSaveEditClient() {
         this.btnSaveEditClient.click();
     }
-    public String getAlertSuccessEditClient(){
-       return this.alertSuccessEditClient.getText();
+
+    public String getAlertSuccessEditClient() {
+        return this.alertSuccessEditClient.getText();
     }
-    public void setDropdownFilter(int index){
+
+    public void setDropdownFilter(int index) {
         Select drpClientProgress = new Select(dropdownFilter);
         drpClientProgress.selectByIndex(index);
     }
-    public String getResultFilter(){
+
+    public String getResultFilter() {
         return this.stageStatus.getText();
     }
 
-    public void clickBtnCancelDanger(){
+    public void clickBtnCancelDanger() {
         this.btnCancelDanger.click();
     }
-    public String getAlertDuplicateAddClient(){
+
+    public String getAlertDuplicateAddClient() {
         return alertDuplicateAddClient.getText();
+    }
+
+    public String getAlertDuplicateEditClient(){
+        return this.alertDupilcateEditClient.getText();
     }
     //endregion
 

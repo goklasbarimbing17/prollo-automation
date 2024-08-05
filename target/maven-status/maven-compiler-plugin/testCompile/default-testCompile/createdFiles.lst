@@ -1,0 +1,7 @@
+com\prollo\stepdefinitions\TestDashboard.class
+com\prollo\hooks\Hooks.class
+com\prollo\stepdefinitions\TestSignature.class
+com\prollo\testrunner\TestRun.class
+com\prollo\stepdefinitions\TestListClient.class
+com\prollo\stepdefinitions\TestLogin.class
+com\prollo\stepdefinitions\TestProgress.class

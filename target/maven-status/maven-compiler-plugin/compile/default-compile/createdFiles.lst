@@ -1,0 +1,12 @@
+com\prollo\utils\Utils.class
+com\prollo\pages\LoginPage.class
+com\prollo\drivers\strategies\DriverStrategy.class
+com\prollo\drivers\strategies\Firefox.class
+com\prollo\utils\TestScenarios.class
+com\prollo\drivers\DriverSingleton.class
+com\prollo\drivers\strategies\Chrome.class
+com\prollo\utils\Constants.class
+com\prollo\pages\DashboardPage.class
+com\prollo\pages\ProgressPage.class
+com\prollo\pages\ListClientPage.class
+com\prollo\drivers\strategies\DriverStrategyImplementer.class

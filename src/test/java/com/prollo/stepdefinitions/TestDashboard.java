@@ -61,21 +61,16 @@ public class TestDashboard {
     @Then("make sure the total summary is the same as the total list data {string}")
     public void make_sure_the_total_summary_is_the_same_as_the_total_list_data(String typeProgress) {
         Hooks.delay(1);
-        int expected = 0;
-        if (typeProgress.equals("Prospect")) {
-            expected = Integer.parseInt(dashboardPage.getTotalProspect());
-        } else if (typeProgress.equals("Share Compro")) {
-            expected = Integer.parseInt(dashboardPage.getTotalShareCompro());
-        } else if (typeProgress.equals("Initial Meeting")) {
-            expected = Integer.parseInt(dashboardPage.getTotalInitialMeeting());
-        } else if (typeProgress.equals("Client Assessment")) {
-            expected = Integer.parseInt(dashboardPage.getTotalCA());
-        } else if (typeProgress.equals("Complete")) {
-            expected = Integer.parseInt(dashboardPage.getTotalCompleted());
-        } else if (typeProgress.equals("Client Drop")) {
-            expected = Integer.parseInt(dashboardPage.getTotalDrop());
-        }
-        Hooks.delay(2);
+        int expected = switch (typeProgress) {
+            case "Prospect" -> Integer.parseInt(dashboardPage.getTotalProspect());
+            case "Share Compro" -> Integer.parseInt(dashboardPage.getTotalShareCompro());
+            case "Initial Meeting" -> Integer.parseInt(dashboardPage.getTotalInitialMeeting());
+            case "Client Assessment" -> Integer.parseInt(dashboardPage.getTotalCA());
+            case "Complete" -> Integer.parseInt(dashboardPage.getTotalCompleted());
+            case "Client Drop" -> Integer.parseInt(dashboardPage.getTotalDrop());
+            default -> 0;
+        };
+        Hooks.delay(0.5);
         Assert.assertEquals(dashboardPage.getCountRows(), expected);
         extentTest.log(LogStatus.PASS, "Make sure the total summary is the same as the total list data");
     }

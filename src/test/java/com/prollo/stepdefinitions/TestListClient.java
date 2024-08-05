@@ -59,9 +59,8 @@ public class TestListClient {
     @Then("Validate filter client progress {string} {string}")
     public void validate_filter_client_progress(String result, String status) {
         Hooks.delay(0.8);
-        Assert.assertTrue(listClientPage.getResultFilter().contains(result));
+        Assert.assertEquals(listClientPage.getResultFilter(), result);
         extentTest.log(LogStatus.PASS, "Validate filter client progress");
-
     }
 
     //ACCESS CREATE NEW CLIENT FORM ----------------------------------------------------------------------------------->
@@ -90,37 +89,30 @@ public class TestListClient {
     }
 
     @When("input company name client list {string}")
-    public void input_company_name_client_list(String companyName) {
+    public void input_company_name_client_list(String status) {
         Hooks.delay(0.5);
-        int numRandom = random.nextInt(10000);
-        String companyNameRand = companyName +" "+numRandom;
-        if (companyName.isEmpty() || companyName.equals("PT DUMMY TBK")) {
-            listClientPage.setCompanyName(companyName);
-        }else{
-            listClientPage.setCompanyName(companyNameRand);
-        }
-        this.companyNamee = companyNameRand;
+        listClientPage.setCompanyName(status);
         extentTest.log(LogStatus.PASS, "Input company name client list");
     }
 
-    @When("input name PIC client list {string}")
-    public void input_name_pic_client_list(String namePIC) {
+    @When("input name PIC client list")
+    public void input_name_pic_client_list() {
         Hooks.delay(0.5);
-        listClientPage.setNamePIC(namePIC);
+        listClientPage.setNamePIC();
         extentTest.log(LogStatus.PASS, "Input name PIC client list");
     }
 
-    @When("input phone PIC client list {string}")
-    public void input_phone_pic_client_list(String phonePIC) {
+    @When("input phone PIC client list")
+    public void input_phone_pic_client_list() {
         Hooks.delay(0.5);
-        listClientPage.setPhonePIC(phonePIC);
+        listClientPage.setPhonePIC();
         extentTest.log(LogStatus.PASS, "Input phone PIC client list");
     }
 
-    @When("input email PIC client list {string}")
-    public void input_email_pic_client_list(String emailPIC) {
+    @When("input email PIC client list")
+    public void input_email_pic_client_list() {
         Hooks.delay(0.5);
-        listClientPage.setEmailPIC(emailPIC);
+        listClientPage.setEmailPIC();
         Hooks.delay(1);
         Hooks.Enter();
         extentTest.log(LogStatus.PASS, "Input email PIC client list");
@@ -152,26 +144,21 @@ public class TestListClient {
         Hooks.delay(1);
         switch (status) {
             case "Company Name Empty" -> {
-                Assert.assertEquals(listClientPage.getTxtCompanyNameEmpty(), result);
+                Assert.assertEquals(listClientPage.getTxtCompanyNameEmpty(), "Nama Perusahaan tidak boleh kosong");
                 extentTest.log(LogStatus.PASS, "Validate create new client with company name empty");
             }
             case "Source Empty" -> {
-                Assert.assertEquals(listClientPage.getTxtSourceEmpty(), result);
+                Assert.assertEquals(listClientPage.getTxtSourceEmpty(), "Source tidak boleh kosong");
                 extentTest.log(LogStatus.PASS, "Validate create new client with source empty");
-            }case "Duplicate" -> {
+            }
+            case "Duplicate" -> {
                 listClientPage.clickBtnCancelDanger();
-                Assert.assertEquals(listClientPage.getAlertDuplicateAddClient(), result);
+                Assert.assertEquals(listClientPage.getAlertDuplicateAddClient(), "Data is duplicate");
                 extentTest.log(LogStatus.PASS, "Validate create new client with duplicate data");
             }
             case "Success" -> {
-                Assert.assertEquals(listClientPage.getAlertSuccessAddProspect(), result);
-                System.out.println("Alert Done");
-                Hooks.delay(0.5);
-                Assert.assertEquals(listClientPage.getTxtCompanyName(), companyNamee);
-                System.out.println("Company Name Done");
-                Hooks.delay(0.5);
+                Assert.assertEquals(listClientPage.getAlertSuccessAddProspect(), "Sukses menambahkan Client");
                 Assert.assertEquals(listClientPage.getTxtNewProspect(), "New Prospect");
-                System.out.println("New prospect Done");
                 extentTest.log(LogStatus.PASS, "Validate create new client with valid credentials");
             }
         }
@@ -219,23 +206,23 @@ public class TestListClient {
     }
 
     @When("input company name edit client {string}")
-    public void input_company_name_edit_client(String companyName) {
+    public void input_company_name_edit_client(String status) {
         Hooks.delay(0.5);
-        listClientPage.setCompanyName(companyName);
+        listClientPage.setCompanyName(status);
         extentTest.log(LogStatus.PASS, "input company name edit client");
     }
 
-    @When("input name PIC edit client {string}")
-    public void input_name_pic_edit_client(String picName) {
+    @When("input name PIC edit client")
+    public void input_name_pic_edit_client() {
         Hooks.delay(0.5);
-        listClientPage.setNamePIC(picName);
+        listClientPage.setNamePIC();
         extentTest.log(LogStatus.PASS, "Input name PIC edit client");
     }
 
-    @When("input phone PIC edit client {string}")
-    public void input_phone_pic_edit_client(String phonePIC) {
+    @When("input phone PIC edit client")
+    public void input_phone_pic_edit_client() {
         Hooks.delay(0.5);
-        listClientPage.setPhonePIC(phonePIC);
+        listClientPage.setPhonePIC();
         extentTest.log(LogStatus.PASS, "Input phone PIC edit client");
     }
 
@@ -246,24 +233,25 @@ public class TestListClient {
         extentTest.log(LogStatus.PASS, "select source edit client");
     }
 
-    @Then("Validate edit client {string} {string}")
-    public void validate_edit_client(String result, String status) {
+    @Then("Validate edit client {string}")
+    public void validate_edit_client(String status) {
         Hooks.delay(1);
         switch (status) {
             case "Company Name Empty" -> {
-                Assert.assertEquals(listClientPage.getTxtCompanyNameEmptyEdit(), result);
-                extentTest.log(LogStatus.PASS, "Validate create new client with company name empty");
+                Assert.assertEquals(listClientPage.getTxtCompanyNameEmpty(), "Nama Perusahaan tidak boleh kosong");
+                extentTest.log(LogStatus.PASS, "Validate edit client with company name empty");
             }
             case "Source Empty" -> {
-                Assert.assertEquals(listClientPage.getTxtSourceEmptyEdit(), result);
-                extentTest.log(LogStatus.PASS, "Validate create new client with source empty");
+                Assert.assertEquals(listClientPage.getTxtSourceEmpty(), "Source tidak boleh kosong");
+                extentTest.log(LogStatus.PASS, "Validate edit client with source empty");
+                System.out.println(listClientPage.getTxtSourceEmpty());
             }
             case "Duplicate" -> {
-                Assert.assertEquals(listClientPage.getAlertDuplicateAddClient(), result);
+                Assert.assertEquals(listClientPage.getAlertDuplicateEditClient(), "Data is duplicate");
                 extentTest.log(LogStatus.PASS, "Validate duplicate edit data client");
             }
             case "Success Edit" -> {
-                Assert.assertEquals(listClientPage.getAlertSuccessEditClient(), result);
+                Assert.assertEquals(listClientPage.getAlertSuccessEditClient(), "Success edit form");
                 extentTest.log(LogStatus.PASS, "Validate edit data client");
             }
         }
