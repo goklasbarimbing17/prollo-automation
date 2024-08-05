@@ -2,14 +2,19 @@ pipeline {
     agent any
 
     environment {
-        // Define any environment variables if needed
+        // Define environment variables
+        MVN_HOME = tool 'M3' // Path to Maven installation in Jenkins
+        JAVA_HOME = tool 'JDK11' // Path to JDK installation in Jenkins
+        GIT_CREDENTIALS_ID = '7bdc9e9a-8802-4a71-bae8-46d44cba7aaf' // Your GitHub credentials ID
+        TEST_ENV = 'staging' // Example of an environment variable
+        API_URL = 'https://api.staging.example.com' // Example of an API URL variable
     }
 
     stages {
         stage('Checkout') {
             steps {
                 // Checkout code from GitHub repository
-                git credentialsId: '7bdc9e9a-8802-4a71-bae8-46d44cba7aaf', url: 'git@github.com:goklasbarimbing17/prollo-automation.git'
+                git credentialsId: env.GIT_CREDENTIALS_ID, url: 'git@github.com:goklasbarimbing17/prollo-automation.git'
             }
         }
 
@@ -17,8 +22,7 @@ pipeline {
             steps {
                 // Use Maven to build the project
                 script {
-                    def mvnHome = tool 'M3' // Assumes Maven is installed and configured in Jenkins as "M3"
-                    sh "${mvnHome}/bin/mvn clean compile"
+                    sh "${env.MVN_HOME}/bin/mvn clean compile"
                 }
             }
         }
@@ -27,8 +31,7 @@ pipeline {
             steps {
                 // Use Maven to run tests
                 script {
-                    def mvnHome = tool 'M3' // Assumes Maven is installed and configured in Jenkins as "M3"
-                    sh "${mvnHome}/bin/mvn test"
+                    sh "${env.MVN_HOME}/bin/mvn test"
                 }
             }
         }
