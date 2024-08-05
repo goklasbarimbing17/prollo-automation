@@ -14,7 +14,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from GitHub repository
-                git credentialsId: env.GIT_CREDENTIALS_ID, url: 'https://github.com/goklasbarimbing17/prollo-automation.git'
+                git credentialsId: env.GIT_CREDENTIALS_ID, url: 'git@github.com:goklasbarimbing17/prollo-automation.git'
             }
         }
 
