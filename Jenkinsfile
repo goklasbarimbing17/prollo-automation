@@ -18,14 +18,14 @@ pipeline {
             }
         }
 
-//         stage('Build') {
-//             steps {
-//                 // Use Maven to build the project
-//                 script {
-//                     sh "${env.MVN_HOME}/bin/mvn clean compile"
-//                 }
-//             }
-//         }
+        stage('Build') {
+            steps {
+                // Use Maven to build the project
+                script {
+                    sh "${env.MVN_HOME}/bin/mvn clean compile"
+                }
+            }
+        }
 
         stage('Test') {
             steps {
